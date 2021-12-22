@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IFlash } from '../iflash.model';
+import { IFlash } from '../flash.model';
 
 @Component({
   selector: 'app-flash',
