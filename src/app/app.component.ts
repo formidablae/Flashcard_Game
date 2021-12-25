@@ -31,31 +31,31 @@ export class AppComponent {
       show: false,
       id: getRandomNumber(),
     },
-  ];
+  ] as IFlash[];
   editing = false;
   editingId!: number;
 
   trackByFlashId(index: number, flash: IFlash): number {
-    return flash.id;
+    return flash.id as number;
   }
 
   handleToggleCard(flashId: number) {
     const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.show = !flash.show;
+    flash.show = !flash.show as boolean;
   }
 
   handleDelete(flashId: number) {
-    this.flashs = this.flashs.filter(flash => flash.id !== flashId);
+    this.flashs = this.flashs.filter(flash => flash.id !== flashId) as IFlash[];
   }
 
   handleEdit(flashId: number) {
     this.editing = true;
-    this.editingId = flashId;
+    this.editingId = flashId as number;
     // TODO: Add editing logic after adding the form
   }
 
-  handleRememberedChange({flashId, flag}: {flashId: number, flag: any}) {
+  handleRememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect'}) {
     const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.remembered = flag;
+    flash.remembered = flag! as 'correct' | 'incorrect';
   }
 }

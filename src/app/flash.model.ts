@@ -3,5 +3,5 @@ export type IFlash = {
   answer: string;
   show: boolean;
   id: number;
-  remembered?: 'correct' | 'incorrect';
+  remembered?: 'correct' | 'incorrect' | any;
 }
