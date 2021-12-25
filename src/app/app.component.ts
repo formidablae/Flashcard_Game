@@ -37,4 +37,8 @@ export class AppComponent {
     return flash.id;
   }
 
+  handleToggleCard(flashId: number) {
+    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
+    flash.show = !flash.show;
+  }
 }
