@@ -1,5 +1,5 @@
 <div class="card">
-  <header class="card-header">
+  <header class="card-header" (click)="toggleCard()">
     <p class="card-header-title">{{flash.question}}</p>
     <a class="card-header-icon" href="javascript:void(0)" aria-label="more options">
       <span class="icon">
@@ -8,21 +8,23 @@
     </a>
   </header>
 
-  <div class="card-content">
-    <div class="content">
-      {{flash.answer}}
+  <div *ngIf="flash.show">
+    <div class="card-content">
+      <div class="content">
+        {{flash.answer}}
+      </div>
     </div>
-  </div>
 
-  <footer class="card-footer">
-    <a href="#" class="card-footer-item">
-      <i class="fas fa-check"></i>
-    </a>
-    <a href="#" class="card-footer-item">
-      <i class="fas fa-times"></i>
-    </a>
-    <a href="#" class="card-footer-item">
-      <i class="fas fa-edit"></i>
-    </a>
-  </footer>
+    <footer class="card-footer">
+      <a href="#" class="card-footer-item">
+        <i class="fas fa-check"></i>
+      </a>
+      <a href="#" class="card-footer-item">
+        <i class="fas fa-times"></i>
+      </a>
+      <a href="#" class="card-footer-item">
+        <i class="fas fa-edit"></i>
+      </a>
+    </footer>
+  </div>
 </div>
