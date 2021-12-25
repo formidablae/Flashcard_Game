@@ -1,5 +1,5 @@
 <div class="card">
-  <header class="card-header" (click)="toggleCard()">
+  <header class="card-header" [ngClass]="flash.remembered" (click)="toggleCard()">
     <p class="card-header-title">{{flash.question}}</p>
     <a class="card-header-icon" href="javascript:void(0)" aria-label="more options">
       <span class="icon">

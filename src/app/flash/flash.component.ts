@@ -12,7 +12,7 @@ export class FlashComponent {
     question: 'React to Angular',
     answer: 'No Reaction :)',
     show: false,
-  };
+  } as IFlash;
 
   @Output() onToggleCard = new EventEmitter();
   @Output() onDelete = new EventEmitter();
@@ -20,34 +20,37 @@ export class FlashComponent {
   @Output() onRememberedChange = new EventEmitter();
 
   toggleCard() {
-    this.onToggleCard.emit(this.flash.id);
+    this.onToggleCard.emit(this.flash.id as number);
+    // console.log("toggled flash", this.flash.id);
   }
 
   deleteFlash() {
-    this.onDelete.emit(this.flash.id);
+    this.onDelete.emit(this.flash.id as number);
+    // console.log("deleted flash", this.flash.id);
   }
 
   editFlash() {
-    this.onEdit.emit(this.flash.id);
+    this.onEdit.emit(this.flash.id as number);
+    // console.log("edit flash", this.flash.id);
   }
 
   markCorrect() {
     this.onRememberedChange.emit(
       {
-        id: this.flash.id,
+        flashId: this.flash.id,
         flag: 'correct',
-      }
+      } as { flashId: number, flag: 'correct' }
     );
-    console.log("marked Correct", this.flash.id);
+    // console.log("marked Correct", this.flash.id);
   }
 
   markIncorrect() {
     this.onRememberedChange.emit(
       {
-        id: this.flash.id,
+        flashId: this.flash.id,
         flag: 'incorrect',
-      }
+      } as { flashId: number, flag: 'incorrect' }
     );
-    console.log("marked Incorrect", this.flash.id);
+    // console.log("marked Incorrect", this.flash.id);
   }
 }
