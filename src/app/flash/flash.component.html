@@ -16,14 +16,17 @@
     </div>
 
     <footer class="card-footer">
-      <a href="#" class="card-footer-item">
+      <a href="#" class="card-footer-item" (click)="markCorrect()">
         <i class="fas fa-check"></i>
       </a>
-      <a href="#" class="card-footer-item">
+      <a href="#" class="card-footer-item" (click)="markIncorrect()">
         <i class="fas fa-times"></i>
       </a>
-      <a href="#" class="card-footer-item">
+      <a href="#" class="card-footer-item" (click)="editFlash()">
         <i class="fas fa-edit"></i>
+      </a>
+      <a href="#" class="card-footer-item" (click)="deleteFlash()">
+        <i class="fas fa-trash"></i>
       </a>
     </footer>
   </div>
