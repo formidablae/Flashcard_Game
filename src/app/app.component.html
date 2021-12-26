@@ -3,17 +3,34 @@
   <div class="field">
     <label class="label" for="">Question</label>
     <div class="control">
-      <input required class="input" type="text" name="Question">
+      <input
+        required
+        class="input"
+        type="text"
+        name="question"
+        [(ngModel)]="flash.question"
+        #question="ngModel">
     </div>
   </div>
   <div class="field">
     <label class="label">Answer</label>
     <div class="control">
-      <input required class="input" type="text" name="Answer">
+      <input
+        required
+        class="input"
+        type="text"
+        name="answer"
+        #answer
+        [(ngModel)]="flash.answer">
     </div>
   </div>
-  <button class="button is-primary" type="submit">Submit</button>
-  <button class="button clear-btn">Clear</button>
+  <button
+    class="button is-primary"
+    type="submit"
+    (click)="handleSubmit()">Submit</button>
+  <button
+    class="button clear-btn"
+    (click)="handleClear()">Clear</button>
 </form>
 
 <div class="flashs">
