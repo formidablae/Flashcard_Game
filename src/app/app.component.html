@@ -1,5 +1,5 @@
-<form>
-  <h1 class="is-size-3">Add a new Flash Card</h1>
+<form #flashForm="ngForm">
+  <h1 class="is-size-3">{{editing ? 'Update' : 'Add a new'}} Flash Card</h1>
   <div class="field">
     <label class="label" for="">Question</label>
     <div class="control">
@@ -9,28 +9,45 @@
         type="text"
         name="question"
         [(ngModel)]="flash.question"
+        [ngClass]="{'is-danger': question.invalid && !question.pristine}"
         #question="ngModel">
     </div>
   </div>
   <div class="field">
-    <label class="label">Answer</label>
+    <label class="label" for="">Answer</label>
     <div class="control">
       <input
         required
         class="input"
         type="text"
         name="answer"
-        #answer
-        [(ngModel)]="flash.answer">
+        [(ngModel)]="flash.answer"
+        [ngClass]="{'is-danger': answer.invalid && !answer.pristine}"
+        #answer="ngModel">
     </div>
   </div>
   <button
+    *ngIf="editing; else submitBtn"
     class="button is-primary"
     type="submit"
-    (click)="handleSubmit()">Submit</button>
+    (click)="handleUpdate()"
+    [disabled]="flashForm.invalid">Update</button>
+    <ng-template #submitBtn>
+      <button
+        class="button is-primary"
+        type="submit"
+        (click)="handleSubmit()"
+        [disabled]="flashForm.invalid">Submit</button>
+    </ng-template>
   <button
+    *ngIf="editing; else clearBtn"
     class="button clear-btn"
-    (click)="handleClear()">Clear</button>
+    (click)="handleCancel()">Cancel</button>
+    <ng-template #clearBtn>
+      <button
+        class="button clear-btn"
+        (click)="handleClear()">Clear</button>
+    </ng-template>
 </form>
 
 <div class="flashs">

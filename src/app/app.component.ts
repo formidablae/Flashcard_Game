@@ -49,22 +49,33 @@ export class AppComponent {
     return flash.id as number;
   }
 
-  handleToggleCard(flashId: number) {
+  handleToggleCard(flashId: number): void {
     const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
     flash.show = !flash.show as boolean;
   }
 
-  handleDelete(flashId: number) {
+  handleDelete(flashId: number): void {
     this.flashs = this.flashs.filter(flash => flash.id !== flashId) as IFlash[];
   }
 
-  handleEdit(flashId: number) {
+  handleEdit(flashId: number): void {
     this.editing = true;
     this.editingId = flashId as number;
-    // TODO: Add editing logic after adding the form
+    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
+    this.flash = {
+      question: flash.question,
+      answer: flash.answer,
+    } as { question: string, answer: string };
   }
 
-  handleRememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect'}) {
+  handleUpdate(): void {
+    const flash = this.flashs.find(flash => flash.id === this.editingId) as IFlash;
+    flash.question = this.flash.question as string;
+    flash.answer = this.flash.answer as string;
+    this.handleCancel();
+  }
+
+  handleRememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect'}): void {
     const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
     flash.remembered = flag! as 'correct' | 'incorrect';
   }
@@ -79,11 +90,17 @@ export class AppComponent {
     this.handleClear();
   }
 
+  handleCancel(): void {
+    this.editing = false;
+    this.editingId = undefined!;
+    this.handleClear();
+  }
+
   handleClear(): void {
     this.flash = {
       question: '',
       answer: '',
-    } as IFlash;
+    } as { question: string, answer: string };
     this.flashForm.reset();
   }
 }
