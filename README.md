@@ -30,4 +30,4 @@ Visual state of the project:
 
 <img src="./images/screenshot.png" />
 
-Visit page here: [formaidablae-flashcard-game.netlify.app](https://formaidablae-flashcard-game.netlify.app/)
+Visit page here: [formidablae-flashcard-game.netlify.app](https://formidablae-flashcard-game.netlify.app/)
