@@ -30,5 +30,4 @@ Visual state of the project:
 
 <img src="./images/screenshot.png" />
 
-Visit page here: [formaidablae-flashcard-game.netlify.app](https://formaidablae-pig-game.netlify.app/)
-
+Visit page here: [formaidablae-flashcard-game.netlify.app](https://formaidablae-flashcard-game.netlify.app/)
