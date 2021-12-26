@@ -29,3 +29,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Visual state of the project:
 
 <img src="./images/screenshot.png" />
+
+Visit page here: [formaidablae-flashcard-game.netlify.app](https://formaidablae-pig-game.netlify.app/)
+
