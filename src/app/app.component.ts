@@ -15,10 +15,10 @@ function getRandomNumber(): number {
 export class AppComponent {
   @ViewChild('flashForm', { static: true }) flashForm!: NgForm;
 
-  flash: IFlash = {
+  flash = {
     question: '',
     answer: '',
-  } as IFlash;
+  } as { question: string, answer: string };
 
   flashs: IFlash[] = [
     {
