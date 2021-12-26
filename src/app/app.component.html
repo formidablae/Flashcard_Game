@@ -1,4 +1,4 @@
-<form>
+<form #flashForm="ngForm">
   <h1 class="is-size-3">Add a new Flash Card</h1>
   <div class="field">
     <label class="label" for="">Question</label>
@@ -9,19 +9,21 @@
         type="text"
         name="question"
         [(ngModel)]="flash.question"
+        [ngClass]="{'is-danger': question.invalid && !question.pristine}"
         #question="ngModel">
     </div>
   </div>
   <div class="field">
-    <label class="label">Answer</label>
+    <label class="label" for="">Answer</label>
     <div class="control">
       <input
         required
         class="input"
         type="text"
         name="answer"
-        #answer
-        [(ngModel)]="flash.answer">
+        [(ngModel)]="flash.answer"
+        [ngClass]="{'is-danger': answer.invalid && !answer.pristine}"
+        #answer="ngModel">
     </div>
   </div>
   <button

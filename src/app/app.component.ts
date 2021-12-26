@@ -83,7 +83,7 @@ export class AppComponent {
     this.flash = {
       question: '',
       answer: '',
-    } as IFlash;
+    } as { question: string, answer: string };
     this.flashForm.reset();
   }
 }
