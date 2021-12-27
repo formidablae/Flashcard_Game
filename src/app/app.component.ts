@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IFlash } from './flash.model';
 import { FlashService } from './services/flash.service';
@@ -9,7 +9,7 @@ import { FlashService } from './services/flash.service';
   styleUrls: ['./app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   @ViewChild('flashForm', { static: true }) flashForm!: NgForm;
 
   flash = {
@@ -23,8 +23,22 @@ export class AppComponent {
 
   editingId!: number;
 
+  subscription: any;
+
   constructor(private flashService: FlashService) {
     this.flashs = this.flashService.flashs;
+  }
+
+  ngOnInit(): void {
+    this.subscription = this.flashService.flashs$.subscribe(flashs => {
+      this.flashs = flashs;
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   trackByFlashId(index: number, flash: IFlash): number {
