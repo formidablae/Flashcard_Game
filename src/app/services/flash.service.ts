@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { IFlash } from '../flash.model';
 
 function getRandomNumber(): number {
@@ -30,38 +31,69 @@ export class FlashService {
     },
   ] as IFlash[];
 
+  flashs$ = new BehaviorSubject<IFlash[]>(this.flashs);
+
   addFlash(flash: { question: string, answer: string }) {
-    this.flashs.push(
+    this.flashs = [
+      ...this.flashs as IFlash[],
       {
         ...flash,
         show: false,
         id: getRandomNumber() as number,
       } as IFlash,
-    );
+    ] as IFlash[];
   }
 
   toggleFlash(flashId: number): void {
-    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.show = !flash.show as boolean;
+    const indexOfElem = this.flashs.findIndex(flash => flash.id === flashId) as number;
+    this.flashs = [
+      ...this.flashs.slice(0, indexOfElem) as IFlash[],
+      {
+        ...this.flashs[indexOfElem] as IFlash,
+        show: !this.flashs[indexOfElem].show as boolean,
+      } as IFlash,
+      ...this.flashs.slice(indexOfElem + 1) as IFlash[],
+    ] as IFlash[];
+    this.flashs$.next(this.flashs);
   }
 
   deleteFlash(flashId: number): void {
-    const indexOfElem = this.flashs.findIndex(flash => flash.id === flashId);
-    this.flashs.splice(indexOfElem, 1);
+    const indexOfElem = this.flashs.findIndex(flash => flash.id === flashId) as number;
+    this.flashs = [
+      ...this.flashs.slice(0, indexOfElem) as IFlash[],
+      ...this.flashs.slice(indexOfElem + 1) as IFlash[],
+    ] as IFlash[];
+    this.flashs$.next(this.flashs);
   }
 
   rememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect' }): void {
-    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.remembered = flag! as 'correct' | 'incorrect';
+    const indexOfElem = this.flashs.findIndex(flash => flash.id === flashId) as number;
+    this.flashs = [
+      ...this.flashs.slice(0, indexOfElem) as IFlash[],
+      {
+        ...this.flashs[indexOfElem] as IFlash,
+        remembered: flag as 'correct' | 'incorrect',
+      } as IFlash,
+      ...this.flashs.slice(indexOfElem + 1) as IFlash[],
+    ] as IFlash[];
+    this.flashs$.next(this.flashs);
   }
 
-  updateFlash(editingId: number, updatedFlash: { question: string, answer: string } ): void {
-    const flash = this.flashs.find(flash => flash.id === editingId) as IFlash;
-    flash.question = updatedFlash.question as string;
-    flash.answer = updatedFlash.answer as string;
+  updateFlash(editingId: number, updatedFlash: { question: string, answer: string }): void {
+    const indexOfElem = this.flashs.findIndex(flash => flash.id === editingId) as number;
+    this.flashs = [
+      ...this.flashs.slice(0, indexOfElem) as IFlash[],
+      {
+        ...this.flashs[indexOfElem] as IFlash,
+        ...updatedFlash,
+      } as IFlash,
+      ...this.flashs.slice(indexOfElem + 1) as IFlash[],
+    ] as IFlash[];
+    this.flashs$.next(this.flashs);
   }
 
   getFlash(flashId: number): IFlash {
-    return this.flashs.find(flash => flash.id === flashId) as IFlash;
+    const indexOfElem = this.flashs.findIndex(flash => flash.id === flashId) as number;
+    return this.flashs[indexOfElem] as IFlash;
   }
 }
