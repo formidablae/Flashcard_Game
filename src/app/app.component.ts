@@ -1,10 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IFlash } from './flash.model';
-
-function getRandomNumber(): number {
-  return Math.floor(Math.random() * 10000);
-}
+import { FlashService } from './services/flash.service';
 
 @Component({
   selector: 'app-root',
@@ -20,73 +17,45 @@ export class AppComponent {
     answer: '',
   } as { question: string, answer: string };
 
-  flashs: IFlash[] = [
-    {
-      question: 'Question 1',
-      answer: 'Answer 1',
-      show: false,
-      id: getRandomNumber(),
-    },
-    {
-      question: 'Question 2',
-      answer: 'Answer 2',
-      show: false,
-      id: getRandomNumber(),
-    },
-    {
-      question: 'Question 3',
-      answer: 'Answer 3',
-      show: false,
-      id: getRandomNumber(),
-    },
-  ] as IFlash[];
+  flashs: IFlash[];
 
   editing = false;
 
   editingId!: number;
+
+  constructor(private flashService: FlashService) {
+    this.flashs = this.flashService.flashs;
+  }
 
   trackByFlashId(index: number, flash: IFlash): number {
     return flash.id as number;
   }
 
   handleToggleCard(flashId: number): void {
-    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.show = !flash.show as boolean;
+    this.flashService.toggleFlash(flashId);
   }
 
   handleDelete(flashId: number): void {
-    this.flashs = this.flashs.filter(flash => flash.id !== flashId) as IFlash[];
+    this.flashService.deleteFlash(flashId);
   }
 
   handleEdit(flashId: number): void {
     this.editing = true;
-    this.editingId = flashId as number;
-    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    this.flash = {
-      question: flash.question,
-      answer: flash.answer,
-    } as { question: string, answer: string };
+    this.editingId = flashId;
+    this.flash = this.flashService.getFlash(flashId);
   }
 
   handleUpdate(): void {
-    const flash = this.flashs.find(flash => flash.id === this.editingId) as IFlash;
-    flash.question = this.flash.question as string;
-    flash.answer = this.flash.answer as string;
+    this.flashService.updateFlash(this.editingId, this.flash);
     this.handleCancel();
   }
 
-  handleRememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect'}): void {
-    const flash = this.flashs.find(flash => flash.id === flashId) as IFlash;
-    flash.remembered = flag! as 'correct' | 'incorrect';
+  handleRememberedChange({ flashId, flag }: { flashId: number, flag: 'correct' | 'incorrect' }): void {
+    this.flashService.rememberedChange({ flashId, flag });
   }
 
   handleSubmit(): void {
-    this.flashs.push(
-      {
-        ...this.flash,
-        id: getRandomNumber(),
-      } as IFlash
-    );
+    this.flashService.addFlash(this.flash);
     this.handleClear();
   }
 
